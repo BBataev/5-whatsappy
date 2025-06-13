@@ -36,12 +36,13 @@ func main() {
 		slog.Info("Connection to postgres closed")
 	}()
 
+	h := endpoints.NewHandler(cfg)
+
 	s := gin.Default()
 
-	s.POST("/register", endpoints.HandleRegister)
-	s.POST("/login", func(c *gin.Context) {
-		endpoints.HandleLogin(c, cfg)
-	})
+	s.POST("/register", h.HandleRegister)
+	s.POST("/login", h.HandleLogin)
+	s.POST("/")
 
 	s.Run(cfg.ListenAddr)
 

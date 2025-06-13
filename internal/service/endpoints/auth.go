@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/BBataev/whatsappy/internal/config"
 	"github.com/BBataev/whatsappy/internal/storage/postgres"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -22,7 +21,7 @@ type RegisterRequest struct {
 	Email    string `json:"email"`
 }
 
-func HandleLogin(c *gin.Context, cfg *config.Config) {
+func (h *Handler) HandleLogin(c *gin.Context) {
 	var req LoginRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -40,7 +39,7 @@ func HandleLogin(c *gin.Context, cfg *config.Config) {
 		return
 	}
 
-	token, err := generateToken(req.Username, []byte(cfg.JWToken))
+	token, err := generateToken(req.Username, []byte(h.cfg.JWToken))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not generate token"})
 		return
@@ -49,7 +48,7 @@ func HandleLogin(c *gin.Context, cfg *config.Config) {
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
-func HandleRegister(c *gin.Context) {
+func (h *Handler) HandleRegister(c *gin.Context) {
 	var req RegisterRequest
 
 	if err := c.BindJSON(&req); err != nil {
