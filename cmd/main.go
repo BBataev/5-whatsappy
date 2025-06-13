@@ -26,7 +26,6 @@ func main() {
 	}
 
 	cfg = config.Load()
-
 	slog.Info("Config loaded", slog.Any("config", cfg))
 
 	postgres.BuildDSN(cfg)
@@ -40,7 +39,9 @@ func main() {
 	s := gin.Default()
 
 	s.POST("/register", endpoints.HandleRegister)
-	s.POST("/login", endpoints.HandleLogin)
+	s.POST("/login", func(c *gin.Context) {
+		endpoints.HandleLogin(c, cfg)
+	})
 
 	s.Run(cfg.ListenAddr)
 
