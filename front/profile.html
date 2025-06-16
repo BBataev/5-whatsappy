@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Профиль</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="navbar">
+      <button id="logoutBtn">Выйти</button>
+    </div>
+    <h1>Добро пожаловать, <span id="usernameDisplay"></span>!</h1>
+    <div class="profile-info">
+      Это ваша личная страница профиля.
+    </div>
+    <button id="messagesBtn" class="message-btn">Перейти в сообщения</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    window.onload = async () => {
+      const user = await checkAuth()
+      if (user) {
+        document.getElementById('usernameDisplay').textContent = user.username
+      }
+    }
+
+    document.getElementById('logoutBtn').onclick = () => {
+      localStorage.removeItem('username')
+
+      window.location.href = 'index.html'
+    }
+
+    document.getElementById('messagesBtn').onclick = () => {
+      window.location.href = 'messages.html'
+    }
+  </script>
+</body>
+</html>

@@ -40,9 +40,15 @@ func main() {
 
 	s := gin.Default()
 
-	s.POST("/register", h.HandleRegister)
-	s.POST("/login", h.HandleLogin)
-	s.POST("/")
+	api := s.Group("/api")
+	{
+		api.POST("/register", h.HandleRegister)
+		api.POST("/login", h.HandleLogin)
+		api.GET("/me", h.HandleMe)
+		api.GET("/ws", h.HandleWS)
+	}
+
+	s.Static("/front", "./front")
 
 	s.Run(cfg.ListenAddr)
 

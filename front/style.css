@@ -1,0 +1,101 @@
+/* style.css */
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  width: 360px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  background-color: #4a90e2;
+  border: none;
+  color: white;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357ABD;
+}
+
+.link {
+  margin-top: 1rem;
+  display: block;
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #d93025;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.navbar button {
+  width: auto;
+  padding: 0.4rem 1rem;
+  margin-left: 0.5rem;
+  background-color: #e74c3c;
+}
+
+.navbar button:hover {
+  background-color: #c0392b;
+}
+
+.profile-info {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.message-btn {
+  background-color: #2ecc71;
+}
+
+.message-btn:hover {
+  background-color: #27ae60;
+}

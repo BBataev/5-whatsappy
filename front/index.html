@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Вход</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Вход</h1>
+    <div id="error" class="error" style="display:none"></div>
+    <input id="username" type="text" placeholder="Имя пользователя" />
+    <input id="password" type="password" placeholder="Пароль" />
+    <button id="loginBtn">Войти</button>
+    <a href="register.html" class="link">Зарегистрироваться</a>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const errorDiv = document.getElementById('error')
+    const loginBtn = document.getElementById('loginBtn')
+
+    loginBtn.onclick = async () => {
+      errorDiv.style.display = 'none'
+      const username = document.getElementById('username').value.trim()
+      const password = document.getElementById('password').value.trim()
+
+      if (!username || !password) {
+        errorDiv.textContent = 'Пожалуйста, заполните все поля'
+        errorDiv.style.display = 'block'
+        return
+      }
+
+      try {
+        const res = await fetch('http://localhost:8080/api/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+          body: JSON.stringify({ username, password }),
+        })
+
+        if (res.ok) {
+          const data = await res.json()
+          localStorage.setItem('username', data.username)
+          window.location.href = 'profile.html'
+        } else {
+          const data = await res.json()
+          errorDiv.textContent = data.error || 'Ошибка входа'
+          errorDiv.style.display = 'block'
+        }
+      } catch (e) {
+        errorDiv.textContent = 'Ошибка сети'
+        errorDiv.style.display = 'block'
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,6 +1,9 @@
 package postgres
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
+)
 
 func CheckUserConflict(username, email string) (bool, error) {
 	var exists bool
@@ -14,14 +17,21 @@ func CheckUserConflict(username, email string) (bool, error) {
 	return exists, err
 }
 
-func CheckUserCredentials(username, password string) (bool, error) {
-	var hashed string
-	query := `SELECT password FROM users WHERE username = $1`
-	err := db.Get(&hashed, query, username)
+func CheckUserCredentials(username, password string) (uuid.UUID, bool, error) {
+	var (
+		id     uuid.UUID
+		hashed string
+	)
+	query := `SELECT id, password FROM users WHERE username = $1`
+	err := db.QueryRow(query, username).Scan(&id, &hashed)
 	if err != nil {
-		return false, err
+		return uuid.Nil, false, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(hashed), []byte(password))
-	return err == nil, nil
+	if err != nil {
+		return uuid.Nil, false, nil
+	}
+
+	return id, true, nil
 }
